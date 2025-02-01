@@ -25,8 +25,10 @@ class Scrape {
                 console.log(internalLinks);
             }
             if(link == "/") return;
-        })
-    }
-}
+        })    
+    };
 
+
+}
+return {head: pageHead, body: pageBody, internalLinks, externalLink}
 Scrape.scareWebpage("https://piyushgarg.dev")
