@@ -38,9 +38,41 @@ class Scrape {
                 console.log(result.embedding.values);
             }
             run({text: link});
+
         })    
     };
+    static async ingest(url="") {
+    const {pageHead, pageBody, internalLinks} = await Scrape.scareWebpage(url);
+
+    const headEmbedding = await Scrape.run({text:pageHead})
+
+    const bodyChunks = chunktext(pageBody, 2000)
+    
+    for(const chunk of bodyChunks) {
+        const bodyEmbedding = await Scrape.scareWebpage.run({text:pageBody})
+    }
+
+    const bodyEmbedding = await Scrape.run({text:pageHead})
+
+    function chunktext(text, numChunks) {
+        if (numChunks <= 0) {
+            throw new Error("Number of chunks must be greater than zero");
+        }
+        
+        const chunkSize = Math.ceil(text.length / numChunks);
+        const chunks = [];
+        
+        for (let i = 0; i < text.length; i += chunkSize) {
+            chunks.push(text.slice(i, i + chunkSize));
+        }
+        
+        return chunks;
+    
+    }
 
 
 }
+    
+}
+
 Scrape.scareWebpage("https://piyushgarg.dev")
